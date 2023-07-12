@@ -1,0 +1,109 @@
+const express = require('express');
+const router = express.Router();
+
+//Find ALL flights
+router.get('/allFlights',async(req,res) => {
+    try{
+        collection = db.collection('flights');
+        let data = await collection.find({airline:"LH"}).toArray();
+        /*if(data){
+            console.log("Successful Data");
+        }*/
+        //data = JSON.stringify(data);
+        res.json(data);
+    }catch(error){
+        res.status(500).json({message:error.message});
+    }
+})
+
+//Find Flights According to Query
+router.get('/flight?:departureDate?:returnDate?:destination', async(req,res) => {
+    try{
+        collection = db.collection('flights');
+
+        //Get DepartureDate
+        let departureDate = req.query.departureDate;
+        //console.log(departureDate);
+        let departDate = new Date(departureDate);
+        //console.log(departDate);
+        
+        const departureCity = 'Singapore'
+
+        //Get Destination
+        let destination = req.query.destination;
+        //console.log(destination);
+
+        //Find Destination
+        let destination_data = await collection.find({destcity:destination}).toArray();
+        //console.log(destination_data);
+        if(destination_data.length === 0){
+            //console.log("Destination is not found");
+            return res.status(200).send([]);
+        }
+
+        //Find Departure Data
+        let Departuredata = await collection.find({date:departDate,destcity:destination,srccity:departureCity}).toArray();
+        //console.log(Departuredata[0].price);
+
+        //Sort the Departure Data Price
+        Departuredata.sort((a,b)=>a.price - b.price);
+        let dest_cheapest_price = Departuredata[0].price
+        let departArray = [];
+
+        for(let i = 0; i<Departuredata.length; i++){
+            if(Departuredata[i].price == dest_cheapest_price){
+                departArray.push(Departuredata[i]);
+            }
+            else if(Departuredata[i].price > dest_cheapest_price){
+                break;
+            }
+        }
+
+        //Get ReturnDate
+        let returnDate = req.query.returnDate;
+        let retDate = new Date(returnDate);
+
+        //Find Return Data
+        let ReturnData = await collection.find({date:retDate,destcity:departureCity,srccity:destination}).toArray();
+        ReturnData.sort((a,b) => a.price-b.price);
+        let return_cheapest_price = ReturnData[0].price;
+        let returnArray = [];
+
+        for(let i = 0; i<ReturnData.length; i++){
+            if(ReturnData[i].price === return_cheapest_price){
+                returnArray.push(ReturnData[i]);
+            }
+            else if(ReturnData[i].price > return_cheapest_price){
+                break;
+            }
+        }
+
+
+        if(departArray.length === 0 || returnArray.length === 0){
+            return res.status(200).send([]);
+        }
+        else{
+            let minimum = Math.min(departArray.length,returnArray.length)
+            let cheap_flight = [];
+            for(let i = 0; i<minimum; i++){
+                let flight_object = {
+                    "City" : destination,
+                    "Departure Date" : departureDate,
+                    "Departure Airline" : departArray[i].airlinename,
+                    "Departure Price" : departArray[i].price,    
+                    "Return Date" : returnDate,
+                    "Return Airline" : returnArray[i].airlinename,
+                    "Return Price" : returnArray[i].price
+                    };
+                cheap_flight.push(flight_object);
+            }
+            res.send(cheap_flight);
+        }
+
+    }catch(error){
+        console.log("ERROR");
+        res.status(400)//.json({message:error.message});
+    }
+})
+
+module.exports = router;
