@@ -1,21 +1,18 @@
-# Define from what image we want to build from
-FROM node:18-alpine
+FROM node:18.14.0-alpine
 
-# Create a dictionary to hold the application code inside the image
+# Create app directory
 WORKDIR /app
 
 # Install app dependencies
-COPY package*.json ./
+ADD package*.json ./
 
+# If you are building your code for production
 RUN npm install
 
 # Bundle app source
-COPY . .
+ADD index.js ./
 
-# Expose instruction
 EXPOSE 8080
-
-# Define the command to run your app
-CMD ["node" , "server.js"]
+CMD [ "node", "index.js" ]
 
 

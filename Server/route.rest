@@ -1,7 +1,14 @@
 GET http://localhost:8080/allFlights
 
-###
+### Correct Parameters
 GET http://localhost:8080/flight?departureDate=2023-12-10&returnDate=2023-12-16&destination=Frankfurt
+
+### Missing Parameter for departureDate
+GET http://localhost:8080/flight?returnDate=2023-12-16&destination=Frankfurt
+
+### Departure Date is larger than Return Date
+GET http://localhost:8080/flight?departureDate=2023-12-16&returnDate=2023-12-10&destination=Frankfurt
+
 
 ###
 GET http://localhost:8080/flight?departureDate=2023-12-10&returnDate=2023-12-16&destination=Taipei
@@ -12,8 +19,11 @@ GET http://localhost:8080/flight?departureDate=2023-12-10&returnDate=2023-12-16&
 ###
 GET http://localhost:8080/allHotels
 
-###
+### Correct Hotels Parameters
 GET http://localhost:8080/hotel?checkInDate=2023-12-10&checkOutDate=2023-12-16&destination=Frankfurt
+
+### Wrong query parameters (Missing check in date)
+GET http://localhost:8080/hotel?checkOutDate=2023-12-16&destination=Frankfurt
 
 ###
 GET http://localhost:8080/
