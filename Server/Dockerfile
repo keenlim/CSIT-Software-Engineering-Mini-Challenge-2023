@@ -1,3 +1,4 @@
+#Run time environment
 FROM node:18.14.0-alpine
 
 # Create app directory

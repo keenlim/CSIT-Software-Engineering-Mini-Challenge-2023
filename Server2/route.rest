@@ -1,0 +1,11 @@
+### Hello World Connection
+GET http://localhost:8080/
+
+### Departure Date is larger than Return Date
+GET http://localhost:8080/flight?departureDate=2023-12-16&returnDate=2023-12-10&destination=Frankfurt
+
+### Missing Destination
+GET http://localhost:8080/flight?departureDate=2023-12-16&returnDate=2023-12-10
+
+###
+GET http://localhost:8080/flight?departureDate=2023-12-10&returnDate=2023-12-16&destination=Frankfurt
