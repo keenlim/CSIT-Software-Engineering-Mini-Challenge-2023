@@ -3,7 +3,7 @@
 - Instead of putting all production code in **index.js** file, I have separated into mutiple routes in order to allow for loose dependency and aid in Unit Testing. 
     - Have a dedicated route for flightRoute, hotelRoute as well as the MongoDB Connection
 
-- Tried out Unit Testing using Mocha for flightRoute
+- Tried out Unit Testing using Mocha for flightRoute found in the **Test folder** 
 
 
 ### Unit Testing - Using Mocha
