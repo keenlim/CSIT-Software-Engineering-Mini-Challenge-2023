@@ -9,3 +9,6 @@ GET http://localhost:8080/flight?departureDate=2023-12-16&returnDate=2023-12-10
 
 ###
 GET http://localhost:8080/flight?departureDate=2023-12-10&returnDate=2023-12-16&destination=Frankfurt
+
+### Correct Hotels Parameters
+GET http://localhost:8080/hotel?checkInDate=2023-12-10&checkOutDate=2023-12-16&destination=Frankfurt

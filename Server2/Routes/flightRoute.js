@@ -1,6 +1,3 @@
-//const {connectToMongoDB} = require('../Routes/mongoConnection.js');
-
-//connectToMongoDB();
 const flightEndpoint = async(departureDate, returnDate, destination) => {
     console.log(departureDate, returnDate, destination);
 
@@ -53,14 +50,13 @@ const flightEndpoint = async(departureDate, returnDate, destination) => {
                 "Return Price" : cheapestReturn[0].price
             }];
         }
-        //console.log(result);
+        console.log(result);
 
         return result;
 
     }catch(error){
         console.error('Error retrieving flights: ', error);
         return -2 //Error
-        //res.status(500).json({error: 'Error retrieving flights.'});
     }
 
 
